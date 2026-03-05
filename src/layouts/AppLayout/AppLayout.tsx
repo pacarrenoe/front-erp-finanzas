@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Outlet } from "react-router-dom"
 
 import Sidebar from "../../components/layout/Sidebar/Sidebar"
@@ -7,20 +8,38 @@ import styles from "./AppLayout.module.css"
 
 export default function AppLayout() {
 
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  function closeSidebar() {
+    setSidebarOpen(false)
+  }
+
   return (
 
-    <div className={styles.container}>
+    <div className={styles.layout}>
 
-      <Sidebar />
+      <Sidebar
+        open={sidebarOpen}
+        onClose={closeSidebar}
+      />
+
+      {sidebarOpen && (
+        <div
+          className={styles.overlay}
+          onClick={closeSidebar}
+        />
+      )}
 
       <div className={styles.content}>
 
-        <Header />
+        <Header
+          toggleSidebar={() =>
+            setSidebarOpen(!sidebarOpen)
+          }
+        />
 
         <main className={styles.main}>
-
           <Outlet />
-
         </main>
 
       </div>

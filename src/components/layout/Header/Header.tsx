@@ -1,24 +1,35 @@
 import styles from "./Header.module.css"
 import { useAuth } from "../../../context/AuthContext"
 
-export default function Header() {
+type Props = {
+  toggleSidebar: () => void
+}
+
+export default function Header({ toggleSidebar }: Props) {
 
   const { logout } = useAuth()
 
-  const email = localStorage.getItem("userEmail")
+  const email = sessionStorage.getItem("userEmail")
 
   return (
 
     <header className={styles.header}>
 
+      <button
+        className={styles.menu}
+        onClick={toggleSidebar}
+      >
+        ☰
+      </button>
+
       <div className={styles.title}>
-        Panel financiero
+      
       </div>
 
       <div className={styles.userSection}>
 
-        <span>
-          {email}
+        <span className={styles.user}>
+         Hola! {email}
         </span>
 
         <button

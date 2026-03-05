@@ -1,18 +1,18 @@
-import axios from "axios";
+import axios from "axios"
 
-export const http = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  headers: {
-    "Content-Type": "application/json"
-  }
-});
+const http = axios.create({
+  baseURL: "http://localhost:3001",
+})
 
 http.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("token")
 
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers = config.headers ?? {}
+    config.headers.Authorization = `Bearer ${token}`
   }
 
-  return config;
-});
+  return config
+})
+
+export default http

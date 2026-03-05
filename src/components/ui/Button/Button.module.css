@@ -1,16 +1,42 @@
-.button {
-  padding: 10px 16px;
-  border-radius: 6px;
-  border: none;
+.btn {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  transition: transform 0.08s ease, background 0.2s ease, border 0.2s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
 }
 
 .primary {
-  background: #2563eb;
-  color: white;
+  background: var(--accent);
+  color: #fff;
 }
 
-.secondary {
-  background: #e5e7eb;
+.primary:hover {
+  background: var(--accent-hover);
+}
+
+.ghost {
+  background: rgba(255,255,255,0.06);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.ghost:hover {
+  background: rgba(255,255,255,0.10);
+}
+
+.danger {
+  background: rgba(239,68,68,0.14);
+  border-color: rgba(239,68,68,0.35);
+  color: #fecaca;
+}
+
+.danger:hover {
+  background: rgba(239,68,68,0.22);
 }

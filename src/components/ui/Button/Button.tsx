@@ -1,26 +1,14 @@
 import styles from "./Button.module.css"
 
-type Props = {
-  children: React.ReactNode
-  onClick?: () => void
-  type?: "button" | "submit"
-  variant?: "primary" | "secondary"
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: "primary" | "ghost" | "danger"
 }
 
-export default function Button({
-  children,
-  onClick,
-  type = "button",
-  variant = "primary"
-}: Props) {
-
+export default function Button({ variant = "primary", className = "", ...props }: Props) {
   return (
     <button
-      type={type}
-      onClick={onClick}
-      className={`${styles.button} ${styles[variant]}`}
-    >
-      {children}
-    </button>
+      {...props}
+      className={`${styles.btn} ${styles[variant]} ${className}`}
+    />
   )
 }

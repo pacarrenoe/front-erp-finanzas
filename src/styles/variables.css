@@ -1,17 +1,11 @@
 :root {
-
-
-  --bg-primary: #0b1220;
-  --bg-sidebar: #020617;;
-  --bg-surface: #111827;
-  --bg-surface-hover: #3e526e;
-
-  --border-color: #1f2937;
-
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
+--bg-primary: #0f172a;
+--bg-sidebar: #020617;
+--bg-surface: #111827;
+--border-color: #1f2937;
+--text-primary: #e5e7eb;
+--text-secondary: #94a3b8;
+--accent: #3b82f6;
+--accent-hover: #2563eb;
 
 }

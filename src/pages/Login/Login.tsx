@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import toast from "react-hot-toast"
 import styles from "./Login.module.css"
 
 import { loginRequest } from "../../services/auth.service"
@@ -30,16 +30,17 @@ export default function Login() {
 
       login(token)
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         "userEmail",
         response.data.user.email
       )
 
       navigate("/")
+      toast.success("Bienvenido")
 
     } catch {
 
-      alert("Credenciales incorrectas")
+      toast.error("Credenciales incorrectas")
 
     }
 
