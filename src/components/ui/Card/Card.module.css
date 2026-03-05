@@ -1,0 +1,25 @@
+.card {
+
+  background: var(--bg-surface);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 14px;
+
+  padding: 22px;
+
+  transition: all 0.2s ease;
+
+}
+
+.card:hover {
+
+  transform: translateY(-3px);
+  background: var(--bg-surface-hover);
+
+  border-color: #253142;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.35);
+
+}

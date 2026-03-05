@@ -1,0 +1,54 @@
+.header {
+
+  height: 70px;
+
+  background: #020617;
+
+  border-bottom: 1px solid var(--border-color);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+
+}
+
+.title {
+
+  font-weight: 600;
+  font-size: 16px;
+
+}
+
+.userSection {
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+}
+
+.logout {
+
+  padding: 8px 14px;
+
+  border-radius: 6px;
+
+  border: none;
+
+  background: var(--accent);
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: all 0.15s ease;
+
+}
+
+.logout:hover {
+
+  background: var(--accent-hover);
+
+}
