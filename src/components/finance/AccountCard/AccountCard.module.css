@@ -1,0 +1,376 @@
+.shell {
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(17, 24, 39, 0.35);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  padding: 14px;
+  width: 100%;
+  max-width: 320px;
+  min-height: 170px; /* mismo alto para todos */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =========================
+   ACCIONES
+========================= */
+.actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* =========================
+   TARJETA
+========================= */
+.card {
+  background: linear-gradient(145deg, rgba(30,58,138,0.85), rgba(2,6,23,0.85));
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.10), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(59,130,246,0.20), transparent 45%),
+    radial-gradient(circle at 30% 90%, rgba(14,165,233,0.12), transparent 50%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+.cardBank {
+  font-weight: 700;
+  color: rgba(241,245,249,0.95);
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+
+.chip {
+  width: 36px;
+  height: 26px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(234, 179, 8, 0.55));
+  border: 1px solid rgba(0,0,0,0.25);
+  z-index: 1;
+}
+
+.cardNumber {
+  z-index: 1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: rgba(248,250,252,0.95);
+  font-size: 16px;
+  letter-spacing: 1.8px;
+  padding-top: 6px;
+}
+
+.cardBottom {
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardName {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cardTitle {
+  color: rgba(241,245,249,0.95);
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardSub {
+  color: rgba(148,163,184,0.95);
+  font-size: 12px;
+}
+
+.brand {
+  color: rgba(241,245,249,0.95);
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  font-size: 12px;
+}
+
+/* =========================
+   BILLETE (CASH / SAVINGS)
+========================= */
+.bill {
+  background: linear-gradient(145deg, rgba(6,95,70,0.70), rgba(2,6,23,0.85));
+}
+
+.bill::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(34,197,94,0.18), transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(16,185,129,0.15), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(255,255,255,0.06), transparent 55%);
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.billTop {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.billMark {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.10);
+  display: grid;
+  place-items: center;
+}
+
+.billSymbol {
+  font-weight: 900;
+  color: rgba(236,253,245,0.95);
+  font-size: 18px;
+}
+
+.billTitleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.billTitle {
+  color: rgba(236,253,245,0.95);
+  font-weight: 800;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.billSub {
+  color: rgba(167,243,208,0.85);
+  font-size: 12px;
+}
+
+.billSeal {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: conic-gradient(from 0deg, rgba(34,197,94,0.85), rgba(16,185,129,0.35), rgba(34,197,94,0.85));
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.billMid {
+  z-index: 1;
+  position: relative;
+  border-radius: 14px;
+  border: 1px dashed rgba(255,255,255,0.10);
+  padding: 12px;
+  min-height: 58px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.14);
+}
+
+.billPattern {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.06) 10px,
+      transparent 10px,
+      transparent 18px
+    );
+  opacity: 0.35;
+}
+
+.billLine {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 50%;
+  height: 1px;
+  background: rgba(255,255,255,0.10);
+  transform: translateY(-50%);
+}
+
+.billBottom {
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.billBank {
+  color: rgba(236,253,245,0.92);
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.billCode {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 900;
+  color: rgba(236,253,245,0.95);
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.06);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* fallback */
+.fallback {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.muted {
+  color: rgba(148,163,184,0.9);
+  font-size: 12px;
+}
+
+/* =========================
+   COLORES POR TIPO (FINTECH)
+========================= */
+
+/* Crédito - Violeta fintech */
+.credit {
+  background: linear-gradient(
+    145deg,
+    #7c3aed,
+    #4c1d95
+  );
+}
+
+/* Débito - Azul banco */
+.debit {
+  background: linear-gradient(
+    145deg,
+    #2563eb,
+    #1e3a8a
+  );
+}
+
+/* Efectivo - Verde dinero */
+.cash {
+  background: linear-gradient(
+    145deg,
+    #16a34a,
+    #065f46
+  );
+}
+
+/* Ahorro - Turquesa crecimiento */
+.savings {
+  background: linear-gradient(
+    145deg,
+    #06b6d4,
+    #0e7490
+  );
+}
+
+
+.credit .chip {
+  background: linear-gradient(135deg,#fde68a,#f59e0b);
+}
+
+.debit .chip {
+  background: linear-gradient(135deg,#cbd5f5,#64748b);
+}
+
+.cash .billMark {
+  background: rgba(22,163,74,0.35);
+}
+
+.savings .billMark {
+  background: rgba(6,182,212,0.35);
+}
+
+
+
+
+/* =========================
+   CENTRO DEL BILLETE
+========================= */
+
+.billCenter{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:50px;
+  z-index:1;
+}
+
+/* círculo central del billete */
+
+.billCircle{
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:900;
+  font-size:22px;
+
+  color:#ecfdf5;
+
+  border:2px solid rgba(255,255,255,0.25);
+
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.35),
+    rgba(255,255,255,0.05)
+  );
+
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+}
+
+/* sello inferior */
+
+.billSeal{
+  width:30px;
+  height:30px;
+
+  border-radius:50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.35),
+    rgba(255,255,255,0.05)
+  );
+
+  border:1px solid rgba(255,255,255,0.15);
+}
