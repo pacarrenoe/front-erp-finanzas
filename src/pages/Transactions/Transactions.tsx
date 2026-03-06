@@ -111,7 +111,7 @@ export default function Transactions() {
   onClick={() => setFormOpen(prev => !prev)}
 >
   {formOpen ? "Ocultar formulario" : "Nueva transacción"}
-</button>
+</button> 
 
       <div className={styles.grid}>
 
