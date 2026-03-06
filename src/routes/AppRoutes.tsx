@@ -2,9 +2,10 @@ import { Routes, Route, Navigate } from "react-router-dom"
 
 import Login from "../pages/Login/Login"
 import Dashboard from "../pages/Dashboard/Dashboard"
-import AppLayout from "../layouts/AppLayout/AppLayout"
 import Accounts from "../pages/Accounts/Accounts"
+import Transactions from "../pages/Transactions/Transactions"
 
+import AppLayout from "../layouts/AppLayout/AppLayout"
 import ProtectedRoute from "./ProtectedRoute"
 
 export default function AppRoutes() {
@@ -31,6 +32,11 @@ export default function AppRoutes() {
         <Route
           path="/accounts"
           element={<Accounts />}
+        />
+
+        <Route
+          path="/transactions"
+          element={<Transactions />}
         />
 
       </Route>

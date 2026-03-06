@@ -1,19 +1,39 @@
-export type AccountType =
-  | "DEBIT"
-  | "CASH"
-  | "CREDIT_CARD"
-  | "CHECKING"
-  | "SAVINGS"
+export type Direction = "IN" | "OUT"
 
-export type Account = {
+export type PaymentMethod =
+  | "CASH"
+  | "DEBIT"
+  | "CREDIT"
+  | "TRANSFER"
+
+export type Transaction = {
   id: string
-  name: string
-  type: AccountType
-  currency?: string | null
-  last4?: string | null
-  bank?: string | null
-  credit_limit?: number | null
-  billing_day?: number | null
-  due_day?: number | null
-  active?: boolean
+
+  date: string
+  description?: string
+  amount: number
+
+  direction: Direction
+
+  account_id: string
+  category_id: string
+
+  payment_method: PaymentMethod
+  merchant?: string
+
+  account_name?: string
+  category_name?: string
 }
+
+export type CreateTransactionDTO = {
+  date: string
+  description?: string
+  amount: number
+  direction: Direction
+  account_id: string
+  category_id: string
+  payment_method: PaymentMethod
+  merchant?: string
+}
+
+export type UpdateTransactionDTO = Partial<CreateTransactionDTO>
