@@ -1,87 +1,112 @@
-import { useParams } from "react-router-dom"
-import toast from "react-hot-toast"
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-import { useDebtSchedule } from "../../features/debts/hooks/useDebtSchedule"
-import { useScheduleMutations } from "../../features/debts/hooks/useScheduleMutations"
+import { useDebtSchedule } from "../../features/debts/hooks/useDebtSchedule";
+import { useScheduleMutations } from "../../features/debts/hooks/useScheduleMutations";
+import { useAccounts } from "../../features/accounts/hooks/useAccounts";
 
-import styles from "./DebtDetail.module.css"
+import styles from "./DebtDetail.module.css";
 
-export default function DebtDetail(){
+export default function DebtDetail() {
+  const { id } = useParams();
 
-const { id } = useParams()
+  const { data: schedule = [], isLoading } = useDebtSchedule(id as string);
+  const { data: accounts = [] } = useAccounts();
+  const { payMut } = useScheduleMutations();
 
-const { data:schedule=[],isLoading } = useDebtSchedule(id as string)
+  const [account, setAccount] = useState("");
+  const [method, setMethod] = useState<
+    "CASH" | "DEBIT" | "CREDIT" | "TRANSFER"
+  >("DEBIT");
 
-const { payMut } = useScheduleMutations()
+  async function pay(scheduleId: string) {
+    if (!account) {
+      toast.error("Selecciona una cuenta");
+      return;
+    }
 
-async function pay(scheduleId:string){
+    try {
+      await payMut.mutateAsync({
+        scheduleId,
+        accountId: account,
+        method,
+      });
 
-await payMut.mutateAsync(scheduleId)
+      toast.success("Cuota pagada");
+    } catch {
+      toast.error("Error pagando cuota");
+    }
+  }
 
-toast.success("Cuota pagada")
+  if (isLoading) {
+    return <div className={styles.page}>Cargando...</div>;
+  }
 
-}
+  return (
+    <div className={styles.page}>
+      <h2>Cuotas</h2>
 
-if(isLoading){
+      <div className={styles.paymentBar}>
+        <select value={account} onChange={(e) => setAccount(e.target.value)}>
+          <option value="">Cuenta</option>
 
-return <div className={styles.page}>Cargando...</div>
+          {accounts.map((a: any) => (
+            <option key={a.id} value={a.id}>
+              {a.name}
+            </option>
+          ))}
+        </select>
 
-}
+        <select
+          value={method}
+          onChange={(e) =>
+            setMethod(
+              e.target.value as "CASH" | "DEBIT" | "CREDIT" | "TRANSFER"
+            )
+          }
+        >
+          <option value="DEBIT">Débito</option>
+          <option value="CREDIT">Crédito</option>
+          <option value="CASH">Efectivo</option>
+          <option value="TRANSFER">Transferencia</option>
+        </select>
+      </div>
 
-return(
+      <div className={styles.list}>
+        <div className={styles.tableHeader}>
+          <span>Fecha</span>
+          <span>Monto</span>
+          <span>Estado</span>
+          <span></span>
+        </div>
 
-<div className={styles.page}>
+        {schedule.map((s: any) => (
+          <div key={s.id} className={styles.row}>
+            <span>{new Date(s.due_date).toLocaleDateString()}</span>
 
-<h2>Cuotas</h2>
+            <span>${Number(s.amount).toLocaleString()}</span>
 
-<div className={styles.list}>
+            <span
+              className={s.status === "PAID" ? styles.paid : styles.pending}
+            >
+              {s.status === "PAID" ? "Pagado" : "Pendiente"}
+            </span>
 
-<div className={styles.tableHeader}>
-
-<span>Fecha</span>
-<span>Monto</span>
-<span>Estado</span>
-<span></span>
-
-</div>
-
-{schedule.map((s:any)=>(
-
-<div key={s.id} className={styles.row}>
-
-<span>
-{new Date(s.due_date).toLocaleDateString()}
-</span>
-
-<span>${s.amount}</span>
-
-<span className={
-s.status === "PAID"
-? styles.paid
-: styles.pending
-}>
-{s.status === "PAID" ? "Pagado" : "Pendiente"}
-</span>
-
-{s.status !== "PAID" && (
-
-<button
-className={styles.pay}
-onClick={()=>pay(s.id)}
->
-Marcar pagado
-</button>
-
-)}
-
-</div>
-
-))}
-
-</div>
-
-</div>
-
-)
-
+            {s.status !== "PAID" ? (
+              <button
+                type="button"
+                className={styles.pay}
+                onClick={() => pay(s.id)}
+              >
+                Pagar
+              </button>
+            ) : (
+              <span className={styles.done}>Registrado</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

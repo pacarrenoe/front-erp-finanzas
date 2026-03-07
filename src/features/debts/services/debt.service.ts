@@ -63,9 +63,18 @@ export async function getDebtSchedule(debtId:string){
 
 /* MARK INSTALLMENT AS PAID */
 
-export async function markSchedulePaid(scheduleId:string){
+export async function markSchedulePaid(
+  scheduleId: string,
+  payload: {
+    account_id: string
+    payment_method: "CASH" | "DEBIT" | "CREDIT" | "TRANSFER"
+  }
+) {
 
-  const res = await http.patch(`/debts/schedule/${scheduleId}/mark-paid`)
+  const res = await http.patch(
+    `/debts/schedule/${scheduleId}/mark-paid`,
+    payload
+  )
 
   return res.data.data
 }

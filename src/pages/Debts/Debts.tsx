@@ -12,257 +12,319 @@ import styles from "./Debts.module.css"
 
 export default function Debts(){
 
-const navigate = useNavigate()
+  const navigate = useNavigate()
 
-const { data:debts=[] } = useDebts()
+  const { data: debts = [] } = useDebts()
+  const { createMut, deleteMut } = useDebtMutations()
 
-const { createMut, deleteMut } = useDebtMutations()
+  const [formOpen,setFormOpen] = useState(true)
 
-const [formOpen,setFormOpen] = useState(true)
+  const [form,setForm] = useState({
+    direction:"I_OWE" as "I_OWE" | "OWE_ME",
+    counterparty_name:"",
+    description:"",
+    principal_amount:"",
+    installments:"1",
+    first_due_date:new Date().toISOString().slice(0,10)
+  })
 
-const [form,setForm] = useState({
+  const [filters,setFilters] = useState({
+    direction:"",
+    search:""
+  })
 
-direction:"I_OWE" as "I_OWE" | "OWE_ME",
-counterparty_name:"",
-description:"",
-principal_amount:"",
-installments:"1",
-first_due_date:new Date().toISOString().slice(0,10)
+  function change(key:string,value:any){
+    setForm(p=>({...p,[key]:value}))
+  }
 
-})
+  function changeFilter(key:string,value:string){
+    setFilters(p=>({...p,[key]:value}))
+  }
 
-const [filters,setFilters] = useState({
+  async function submit(e:React.FormEvent){
 
-direction:"",
-search:""
+    e.preventDefault()
 
-})
+    try{
 
-function change(key:string,value:any){
-setForm(p=>({...p,[key]:value}))
-}
+      await createMut.mutateAsync({
+        direction:form.direction,
+        counterparty_name:form.counterparty_name,
+        description:form.description || undefined,
+        principal_amount:Number(form.principal_amount),
+        installments:Number(form.installments),
+        first_due_date:form.first_due_date
+      })
 
-function changeFilter(key:string,value:string){
-setFilters(p=>({...p,[key]:value}))
-}
+      toast.success("Deuda creada")
 
-async function submit(e:React.FormEvent){
+      setForm({
+        direction:"I_OWE",
+        counterparty_name:"",
+        description:"",
+        principal_amount:"",
+        installments:"1",
+        first_due_date:new Date().toISOString().slice(0,10)
+      })
 
-e.preventDefault()
+      if(window.innerWidth < 900){
+        setFormOpen(false)
+      }
 
-try{
+    }catch{
+      toast.error("Error creando deuda")
+    }
 
-await createMut.mutateAsync({
+  }
 
-direction:form.direction,
-counterparty_name:form.counterparty_name,
-description:form.description || undefined,
-principal_amount:Number(form.principal_amount),
-installments:Number(form.installments),
-first_due_date:form.first_due_date
+  async function remove(id:string){
 
-})
+    try{
 
-toast.success("Deuda creada")
+      await deleteMut.mutateAsync(id)
 
-setForm({
+      toast.success("Deuda eliminada")
 
-direction:"I_OWE",
-counterparty_name:"",
-description:"",
-principal_amount:"",
-installments:"1",
-first_due_date:new Date().toISOString().slice(0,10)
+    }catch{
+      toast.error("Error eliminando deuda")
+    }
 
-})
+  }
 
-if(window.innerWidth < 900){
-setFormOpen(false)
-}
+  const filtered = debts.filter((d:any)=>{
 
-}catch{
-toast.error("Error creando deuda")
-}
+    if(filters.direction && d.direction !== filters.direction) return false
 
-}
+    if(filters.search){
 
-async function remove(id:string){
+      const text =
+      `${d.counterparty_name ?? ""} ${d.description ?? ""}`.toLowerCase()
 
-if(!confirm("Eliminar deuda?")) return
+      if(!text.includes(filters.search.toLowerCase())) return false
 
-await deleteMut.mutateAsync(id)
+    }
 
-toast.success("Deuda eliminada")
+    return true
 
-}
+  })
 
-const filtered = debts.filter((d:any)=>{
+  /* agrupar por persona */
 
-if(filters.direction && d.direction !== filters.direction) return false
+  const grouped = filtered.reduce((acc:any,debt:any)=>{
 
-if(filters.search){
+    const person = debt.counterparty_name || "Sin nombre"
 
-const text = `${d.counterparty_name ?? ""} ${d.description ?? ""}`.toLowerCase()
+    if(!acc[person]){
+      acc[person] = []
+    }
 
-if(!text.includes(filters.search.toLowerCase())) return false
+    acc[person].push(debt)
 
-}
+    return acc
 
-return true
+  },{})
 
-})
+  return(
 
-return(
-
-<div className={styles.page}>
+  <div className={styles.page}>
 
-<button
-className={styles.mobileToggle}
-onClick={()=>setFormOpen(p=>!p)}
->
-{formOpen ? "Ocultar formulario" : "Nueva deuda"}
-</button>
+    <button
+      className={styles.mobileToggle}
+      onClick={()=>setFormOpen(p=>!p)}
+    >
+      {formOpen ? "Ocultar formulario" : "Nueva deuda"}
+    </button>
 
-<div className={styles.grid}>
 
-<Card className={`${styles.formCard} ${!formOpen ? styles.closed : ""}`}>
+    <div className={styles.grid}>
 
-<form onSubmit={submit} className={styles.form}>
+      {/* FORM */}
 
-<h2>Nueva deuda</h2>
+      <Card className={`${styles.formCard} ${!formOpen ? styles.closed : ""}`}>
 
-<select
-value={form.direction}
-onChange={(e)=>change("direction",e.target.value)}
->
-<option value="I_OWE">Yo debo</option>
-<option value="OWE_ME">Me deben</option>
-</select>
+        <form onSubmit={submit} className={styles.form}>
 
-<input
-placeholder="Persona"
-value={form.counterparty_name}
-onChange={(e)=>change("counterparty_name",e.target.value)}
-required
-/>
+          <h2>Nueva deuda</h2>
 
-<input
-placeholder="Descripción"
-value={form.description}
-onChange={(e)=>change("description",e.target.value)}
-/>
+          <select
+            value={form.direction}
+            onChange={(e)=>change("direction",e.target.value)}
+          >
+            <option value="I_OWE">Yo debo</option>
+            <option value="OWE_ME">Me deben</option>
+          </select>
 
-<input
-type="number"
-placeholder="Monto total"
-value={form.principal_amount}
-onChange={(e)=>change("principal_amount",e.target.value)}
-required
-/>
+          <input
+            placeholder="Persona"
+            value={form.counterparty_name}
+            onChange={(e)=>change("counterparty_name",e.target.value)}
+            required
+          />
 
-<input
-type="number"
-min="1"
-placeholder="Cuotas"
-value={form.installments}
-onChange={(e)=>change("installments",e.target.value)}
-/>
+          <input
+            placeholder="Descripción"
+            value={form.description}
+            onChange={(e)=>change("description",e.target.value)}
+          />
 
-<input
-type="date"
-value={form.first_due_date}
-onChange={(e)=>change("first_due_date",e.target.value)}
-/>
+          <input
+            type="number"
+            placeholder="Monto total"
+            value={form.principal_amount}
+            onChange={(e)=>change("principal_amount",e.target.value)}
+            required
+          />
 
-<Button type="submit">
-Crear
-</Button>
+          <input
+            type="number"
+            min="1"
+            placeholder="Cuotas"
+            value={form.installments}
+            onChange={(e)=>change("installments",e.target.value)}
+          />
 
-</form>
+          <input
+            type="date"
+            value={form.first_due_date}
+            onChange={(e)=>change("first_due_date",e.target.value)}
+          />
 
-</Card>
+          <Button type="submit">
+            Crear
+          </Button>
 
+        </form>
 
-<div>
+      </Card>
 
-<div className={styles.filters}>
 
-<select
-value={filters.direction}
-onChange={(e)=>changeFilter("direction",e.target.value)}
->
-<option value="">Todos</option>
-<option value="I_OWE">Yo debo</option>
-<option value="OWE_ME">Me deben</option>
-</select>
 
-<input
-placeholder="Buscar persona..."
-value={filters.search}
-onChange={(e)=>changeFilter("search",e.target.value)}
-/>
+      {/* LISTADO */}
 
-</div>
+      <div>
 
+        {/* FILTROS */}
 
-<div className={styles.list}>
+        <div className={styles.filters}>
 
-<div className={styles.tableHeader}>
+          <select
+            value={filters.direction}
+            onChange={(e)=>changeFilter("direction",e.target.value)}
+          >
+            <option value="">Todos</option>
+            <option value="I_OWE">Yo debo</option>
+            <option value="OWE_ME">Me deben</option>
+          </select>
 
-<span>Persona</span>
-<span>Descripción</span>
-<span>Cuotas</span>
-<span>Pendiente</span>
-<span></span>
+          <input
+            placeholder="Buscar persona..."
+            value={filters.search}
+            onChange={(e)=>changeFilter("search",e.target.value)}
+          />
 
-</div>
+        </div>
 
-{filtered.map((d:any)=>(
 
-<div key={d.id} className={styles.row}>
+        <div className={styles.list}>
 
-<span>{d.counterparty_name}</span>
+          <div className={styles.tableHeader}>
+            <span>Descripción</span>
+            <span>Cuotas</span>
+            <span>Pendiente</span>
+            <span></span>
+          </div>
 
-<span>{d.description || "-"}</span>
 
-<span>
-{d.paid_installments} / {d.total_installments}
-</span>
+          {Object.entries(grouped).map(([person,items]:any)=>{
 
-<span className={styles.pending}>
-${d.pending_amount}
-</span>
+            const totalDebt = items.reduce(
+              (sum:number,d:any)=> sum + Number(d.principal_amount),
+              0
+            )
 
-<div className={styles.actions}>
+            const totalPending = items.reduce(
+              (sum:number,d:any)=> sum + Number(d.pending_amount),
+              0
+            )
 
-<button
-className={styles.view}
-onClick={()=>navigate(`/debts/${d.id}`)}
->
-Ver cuotas
-</button>
+            return(
 
-<button
-className={styles.delete}
-onClick={()=>remove(d.id)}
->
-Eliminar
-</button>
+            <div key={person} className={styles.group}>
 
-</div>
+              <div className={styles.groupHeader}>
 
-</div>
+                <div className={styles.groupTitle}>
+                  {person}
+                </div>
 
-))}
+                <div className={styles.groupTotals}>
+                  <span>Total: ${totalDebt.toLocaleString()}</span>
+                  <span>Pendiente: ${totalPending.toLocaleString()}</span>
+                </div>
 
-</div>
+              </div>
 
-</div>
 
-</div>
+              {items.map((d:any)=>(
 
-</div>
+              <div key={d.id} className={styles.row}>
 
-)
+                <div className={styles.descCell}>
+
+                  <span className={styles.descMain}>
+                    {d.description || "-"}
+                  </span>
+
+                  <span className={styles.descSub}>
+                    {d.direction === "I_OWE" ? "Yo debo" : "Me deben"}
+                  </span>
+
+                </div>
+
+                <span className={styles.centerCell}>
+                  {d.paid_installments} / {d.total_installments}
+                </span>
+
+                <span className={styles.pending}>
+                  ${Number(d.pending_amount).toLocaleString()}
+                </span>
+
+                <div className={styles.actions}>
+
+                  <button
+                    className={styles.view}
+                    onClick={()=>navigate(`/debts/${d.id}`)}
+                  >
+                    Ver cuotas
+                  </button>
+
+                  <button
+                    className={styles.delete}
+                    onClick={()=>remove(d.id)}
+                  >
+                    Eliminar
+                  </button>
+
+                </div>
+
+              </div>
+
+              ))}
+
+            </div>
+
+            )
+
+          })}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  )
 
 }

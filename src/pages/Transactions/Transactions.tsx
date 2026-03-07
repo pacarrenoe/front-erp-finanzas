@@ -3,6 +3,7 @@ import { useTransactions } from "../../features/transactions/hooks/useTransactio
 import { useTransactionMutations } from "../../features/transactions/hooks/useTransactionMutations"
 import { useAccounts } from "../../features/accounts/hooks/useAccounts"
 import { useCategories } from "../../features/categories/hooks/useCategories"
+import toast from "react-hot-toast"
 
 import Card from "../../components/ui/Card/Card"
 import Button from "../../components/ui/Button/Button"
@@ -78,9 +79,9 @@ export default function Transactions() {
 
   async function onDelete(id: string) {
 
-    if (!confirm("Eliminar transacción?")) return
 
     await deleteMut.mutateAsync(id)
+    toast.success("Transaccion eliminada")
   }
 
   const filteredTransactions = transactions.filter((t:any) => {
