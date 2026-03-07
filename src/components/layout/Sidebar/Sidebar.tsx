@@ -30,6 +30,7 @@ export default function Sidebar({ open, onClose }: Props) {
           Dashboard
         </NavLink>
 
+
         <NavLink
           to="/transactions"
           className={({ isActive }) =>
@@ -41,6 +42,7 @@ export default function Sidebar({ open, onClose }: Props) {
         >
           Transacciones
         </NavLink>
+
 
         <NavLink
           to="/accounts"
@@ -54,6 +56,59 @@ export default function Sidebar({ open, onClose }: Props) {
           Cuentas
         </NavLink>
 
+
+        <NavLink
+          to="/categories"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Categorías
+        </NavLink>
+
+
+        <NavLink
+          to="/recurring"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Recurrentes
+        </NavLink>
+
+
+        <NavLink
+          to="/credit-card-purchases"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Compras TC
+        </NavLink>
+
+
+        <NavLink
+          to="/installments"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Cuotas
+        </NavLink>
+
+
         <NavLink
           to="/debts"
           className={({ isActive }) =>
@@ -66,6 +121,7 @@ export default function Sidebar({ open, onClose }: Props) {
           Deudas
         </NavLink>
 
+
         <NavLink
           to="/projection"
           className={({ isActive }) =>
@@ -76,6 +132,19 @@ export default function Sidebar({ open, onClose }: Props) {
           onClick={onClose}
         >
           Proyección
+        </NavLink>
+
+
+        <NavLink
+          to="/budget"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Presupuesto
         </NavLink>
 
       </nav>

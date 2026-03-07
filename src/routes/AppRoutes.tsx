@@ -6,6 +6,7 @@ import Accounts from "../pages/Accounts/Accounts"
 import Transactions from "../pages/Transactions/Transactions"
 import Debts from "../pages/Debts/Debts"
 import DebtDetail from "../pages/DebtDetail/DebtDetail";
+import Recurring from "../pages/Recurring/Recurring";
 
 
 import AppLayout from "../layouts/AppLayout/AppLayout"
@@ -32,6 +33,7 @@ export default function AppRoutes() {
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/debts" element={<Debts />} />  
         <Route path="/debts/:id" element={<DebtDetail/>}/> 
+        <Route path="/recurring" element={<Recurring />} />
 
       </Route>
 
