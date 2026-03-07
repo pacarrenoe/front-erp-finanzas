@@ -1,23 +1,58 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.page{
+display:flex;
+flex-direction:column;
+gap:24px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
 }
 
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
+.stat{
+display:flex;
+flex-direction:column;
+gap:6px;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+.stat span{
+color:#94a3b8;
+font-size:14px;
+}
+
+.stat strong{
+font-size:22px;
+color:#f1f5f9;
+}
+
+.income{
+color:#22c55e;
+}
+
+.expense{
+color:#ef4444;
+}
+
+.accounts{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-top:12px;
+}
+
+.account{
+display:flex;
+justify-content:space-between;
+padding:10px;
+background:#0f172a;
+border-radius:8px;
+}
+
+@media(max-width:900px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
 }

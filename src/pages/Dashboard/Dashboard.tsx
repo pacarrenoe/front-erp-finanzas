@@ -1,49 +1,85 @@
-import { useDashboard } from "../../features/dashboard/hooks/useDashboard"
 import Card from "../../components/ui/Card/Card"
 import styles from "./Dashboard.module.css"
 
-export default function Dashboard() {
-  const { data, isLoading, isError } = useDashboard()
+import { useDashboard } from "../../features/dashboard/hooks/useDashboard"
 
-  if (isLoading) {
-    return <p>Cargando dashboard...</p>
-  }
+export default function Dashboard(){
 
-  if (isError) {
-    return <p>No se pudo cargar información.</p>
-  }
+  const { income, expense, balance, accounts } = useDashboard()
 
-  // fallback seguro por si backend devuelve null/undefined
-  const income = data?.income ?? 0
-  const commitments = data?.commitments ?? 0
-  const expenses = data?.expenses ?? 0
-  const balance = data?.balance ?? 0
+  return(
 
-  return (
-    <div className={styles.container}>
-      <h1>Dashboard</h1>
+  <div className={styles.page}>
 
-      <div className={styles.grid}>
-        <Card>
-          <p>Ingreso período</p>
-          <h2>${income}</h2>
-        </Card>
+    <div className={styles.grid}>
 
-        <Card>
-          <p>Compromisos</p>
-          <h2>${commitments}</h2>
-        </Card>
+      <Card>
 
-        <Card>
-          <p>Gasto real</p>
-          <h2>${expenses}</h2>
-        </Card>
+        <div className={styles.stat}>
 
-        <Card>
-          <p>Saldo proyectado</p>
-          <h2>${balance}</h2>
-        </Card>
-      </div>
+          <span>Balance total</span>
+
+          <strong>${balance}</strong>
+
+        </div>
+
+      </Card>
+
+      <Card>
+
+        <div className={styles.stat}>
+
+          <span>Ingresos</span>
+
+          <strong className={styles.income}>
+            +${income}
+          </strong>
+
+        </div>
+
+      </Card>
+
+      <Card>
+
+        <div className={styles.stat}>
+
+          <span>Gastos</span>
+
+          <strong className={styles.expense}>
+            -${expense}
+          </strong>
+
+        </div>
+
+      </Card>
+
     </div>
+
+
+    <Card>
+
+      <h2>Cuentas</h2>
+
+      <div className={styles.accounts}>
+
+      {accounts.map((a:any)=>(
+        
+        <div key={a.id} className={styles.account}>
+
+          <span>{a.name}</span>
+
+          <strong>${a.balance ?? 0}</strong>
+
+        </div>
+
+      ))}
+
+      </div>
+
+    </Card>
+
+  </div>
+
   )
+
 }
