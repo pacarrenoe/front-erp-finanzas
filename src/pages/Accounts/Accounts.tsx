@@ -10,6 +10,7 @@ import Button from "../../components/ui/Button/Button"
 import AccountCard from "../../components/finance/AccountCard/AccountCard"
 
 import styles from "./Accounts.module.css"
+import Loader from "../../components/ui/Loader/Loader"
 
 
 const ACCOUNT_TYPES: { value: AccountType; label: string }[] = [
@@ -174,7 +175,11 @@ export default function Accounts() {
 
 
   if (isLoading)
-    return <p className={styles.state}>Cargando cuentas...</p>
+    return (
+      <div className={styles.page}>
+        <Loader />
+      </div>
+    )
 
   if (isError)
     return <p className={styles.state}>Error cargando cuentas</p>

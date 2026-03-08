@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useDebtSchedule } from "../../features/debts/hooks/useDebtSchedule";
 import { useScheduleMutations } from "../../features/debts/hooks/useScheduleMutations";
 import { useAccounts } from "../../features/accounts/hooks/useAccounts";
-
+import Loader from "../../components/ui/Loader/Loader"
 import styles from "./DebtDetail.module.css";
 
 export default function DebtDetail() {
@@ -40,7 +40,11 @@ export default function DebtDetail() {
   }
 
   if (isLoading) {
-    return <div className={styles.page}>Cargando...</div>;
+    return (
+      <div className={styles.page}>
+        <Loader />
+      </div>
+    )
   }
 
   return (

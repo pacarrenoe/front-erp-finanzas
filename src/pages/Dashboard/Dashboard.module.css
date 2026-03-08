@@ -13,14 +13,14 @@
 
 .header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 20px;
   color: #f8fafc;
 }
 
 .header p {
   margin: 6px 0 0 0;
   color: #94a3b8;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .badgeBox {
@@ -31,7 +31,7 @@
 .badge {
   padding: 8px 12px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: white;
 }
@@ -54,13 +54,13 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 20px;
 }
 
 .twoCols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -72,17 +72,17 @@
 
 .stat span {
   color: #94a3b8;
-  font-size: 14px;
+  font-size: 10px;
 }
 
 .stat strong {
-  font-size: 28px;
+  font-size: 15px;
   color: #f8fafc;
 }
 
 .stat small {
   color: #64748b;
-  font-size: 12px;
+  font-size: 9px;
 }
 
 .income {
@@ -98,6 +98,7 @@
   flex-direction: column;
   gap: 12px;
   margin-top: 12px;
+  font-size: 14px;
 }
 
 .kpiRow {
@@ -105,8 +106,8 @@
   justify-content: space-between;
   gap: 12px;
   padding: 12px;
-  background: #0f172a;
   border-radius: 10px;
+  font-size: 14px;
 }
 
 .kpiRow span {
@@ -140,7 +141,7 @@
 .alert p {
   margin: 0;
   color: #e2e8f0;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .list {
@@ -190,7 +191,7 @@
 
 .accountType {
   color: #94a3b8;
-  font-size: 13px;
+  font-size: 11px;
   margin-top: 4px;
 }
 
@@ -227,7 +228,7 @@
 
 .trendRow span {
   color: #e2e8f0;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .empty {
