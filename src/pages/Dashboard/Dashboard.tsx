@@ -83,7 +83,7 @@ export default function Dashboard() {
   if (error || !dashboard) {
     return (
       <div className={styles.page}>
-        Error cargando dashboard
+        Aun no hay nada para mostrar en el dashboard. Registra algunas transacciones para verlo lleno de vida.
       </div>
     )
   }
