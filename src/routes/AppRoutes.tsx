@@ -32,14 +32,18 @@ export default function AppRoutes() {
       >
 
         <Route path="/" element={<Dashboard />} />
-        <Route path="/accounts" element={<Accounts />} />
+
+        
+        <Route path="/periods" element={<Periods />} />
         <Route path="/transactions" element={<Transactions />} />
+        <Route path="/installments" element={<Installments />} />
+        <Route path="/credit-card-purchases" element={<CreditCardPurchases />} />
+        <Route path="/recurring" element={<Recurring />} />
         <Route path="/debts" element={<Debts />} />
         <Route path="/debts/:id" element={<DebtDetail />} />
-        <Route path="/recurring" element={<Recurring />} />
-        <Route path="/credit-card-purchases" element={<CreditCardPurchases />} />
-        <Route path="/installments" element={<Installments />} />
-        <Route path="/periods" element={<Periods />} />
+        <Route path="/accounts" element={<Accounts />} />
+        {/* <Route path="/categories" element={<Categories />} /> */}
+        {/* <Route path="/budget" element={<Budget />} /> */}
         {/* <Route path="/projection" element={<Projection />} /> */}
 
       </Route>

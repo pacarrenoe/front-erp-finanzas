@@ -30,6 +30,17 @@ export default function Sidebar({ open, onClose }: Props) {
           Dashboard
         </NavLink>
 
+        <NavLink
+          to="/periods"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Períodos
+        </NavLink>
 
         <NavLink
           to="/transactions"
@@ -42,59 +53,6 @@ export default function Sidebar({ open, onClose }: Props) {
         >
           Transacciones
         </NavLink>
-
-
-        <NavLink
-          to="/accounts"
-          className={({ isActive }) =>
-            isActive
-              ? `${styles.link} ${styles.active}`
-              : styles.link
-          }
-          onClick={onClose}
-        >
-          Cuentas
-        </NavLink>
-
-
-        <NavLink
-          to="/categories"
-          className={({ isActive }) =>
-            isActive
-              ? `${styles.link} ${styles.active}`
-              : styles.link
-          }
-          onClick={onClose}
-        >
-          Categorías
-        </NavLink>
-
-
-        <NavLink
-          to="/recurring"
-          className={({ isActive }) =>
-            isActive
-              ? `${styles.link} ${styles.active}`
-              : styles.link
-          }
-          onClick={onClose}
-        >
-          Recurrentes
-        </NavLink>
-
-
-        <NavLink
-          to="/credit-card-purchases"
-          className={({ isActive }) =>
-            isActive
-              ? `${styles.link} ${styles.active}`
-              : styles.link
-          }
-          onClick={onClose}
-        >
-          Compras TC
-        </NavLink>
-
 
         <NavLink
           to="/installments"
@@ -109,7 +67,7 @@ export default function Sidebar({ open, onClose }: Props) {
         </NavLink>
 
         <NavLink
-          to="/periods"
+          to="/credit-card-purchases"
           className={({ isActive }) =>
             isActive
               ? `${styles.link} ${styles.active}`
@@ -117,9 +75,20 @@ export default function Sidebar({ open, onClose }: Props) {
           }
           onClick={onClose}
         >
-          Períodos
+          Compras TC
         </NavLink>
 
+        <NavLink
+          to="/recurring"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Recurrentes
+        </NavLink>
 
         <NavLink
           to="/debts"
@@ -133,9 +102,8 @@ export default function Sidebar({ open, onClose }: Props) {
           Deudas
         </NavLink>
 
-
         <NavLink
-          to="/projection"
+          to="/accounts"
           className={({ isActive }) =>
             isActive
               ? `${styles.link} ${styles.active}`
@@ -143,9 +111,20 @@ export default function Sidebar({ open, onClose }: Props) {
           }
           onClick={onClose}
         >
-          Proyección
+          Cuentas
         </NavLink>
 
+        <NavLink
+          to="/categories"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Categorías
+        </NavLink>
 
         <NavLink
           to="/budget"
@@ -157,6 +136,18 @@ export default function Sidebar({ open, onClose }: Props) {
           onClick={onClose}
         >
           Presupuesto
+        </NavLink>
+
+        <NavLink
+          to="/projection"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Proyección
         </NavLink>
 
       </nav>
