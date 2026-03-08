@@ -2,24 +2,19 @@
   display:flex;
   flex-direction:column;
   gap:20px;
+  height:100%;
+  overflow:hidden;
 }
 
 .grid{
   display:grid;
   grid-template-columns:360px 1fr;
   gap:24px;
+  height:calc(100vh - 140px);
+  min-width:0;
 }
 
-.mobileToggle{
-  display:none;
-  background:#2563eb;
-  border:none;
-  padding:10px;
-  border-radius:8px;
-  color:white;
-  font-size:14px;
-  cursor:pointer;
-}
+/* FORM */
 
 .form{
   display:flex;
@@ -50,30 +45,20 @@
   border-color:#3b82f6;
 }
 
-.actions{
+/* TABLA */
+
+.tableWrapper{
   display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.cancel{
-  background:#1e293b;
-  border:none;
-  padding:10px 12px;
-  border-radius:8px;
-  color:#cbd5e1;
-  cursor:pointer;
-}
-
-.cancel:hover{
-  background:#334155;
+  flex-direction:column;
+  height:100%;
+  overflow:hidden;
 }
 
 .filters{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .filters select,
@@ -86,20 +71,29 @@
   font-size:13px;
 }
 
-.list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
+/* CONTENEDOR CON SCROLL */
+
+.tableContainer{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
+
+/* HEADER */
 
 .tableHeader{
   display:grid;
   grid-template-columns:1fr 160px 1fr 160px;
   font-size:12px;
-  color:#64748b;
+  color:#7b7d80;
   padding:10px 14px;
-  border-bottom:1px solid #1e293b;
+  border-bottom:1px solid #64748b;
+  position:sticky;
+  top:0;
+  z-index:2;
 }
+
+/* ROW */
 
 .row{
   display:grid;
@@ -109,11 +103,14 @@
   background:#0f172a;
   border-radius:8px;
   font-size:12px;
+  margin-bottom:6px;
 }
 
 .row:hover{
   background:#111827;
 }
+
+/* BOTONES */
 
 .rowActions{
   display:flex;
@@ -122,7 +119,7 @@
 }
 
 .edit{
-  background:#1d4ed8;
+  background:#2563eb;
   border:none;
   padding:6px 10px;
   border-radius:6px;
@@ -131,7 +128,7 @@
 }
 
 .edit:hover{
-  background:#2563eb;
+  background:#3b82f6;
 }
 
 .delete{
@@ -147,21 +144,19 @@
   background:#334155;
 }
 
-.closed{
-  display:none;
-}
+/* MOBILE */
 
 @media (max-width:900px){
+
   .grid{
     grid-template-columns:1fr;
+    height:auto;
   }
 
-  .mobileToggle{
-    display:block;
-  }
 }
 
 @media (max-width:768px){
+
   .tableHeader{
     display:none;
   }
@@ -171,7 +166,25 @@
     gap:6px;
   }
 
-  .rowActions{
-    justify-content:flex-start;
-  }
+}
+
+
+.cancel{
+  margin-top:4px;
+  background:#1e293b;
+  border:none;
+  padding:10px 12px;
+  border-radius:8px;
+  color:#cbd5e1;
+  font-size:14px;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+
+.cancel:hover{
+  background:#334155;
+}
+
+.cancel:active{
+  transform:scale(.97);
 }
