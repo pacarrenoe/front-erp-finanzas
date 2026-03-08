@@ -1,58 +1,268 @@
-.page{
-display:flex;
-flex-direction:column;
-gap:24px;
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
 
-.stat{
-display:flex;
-flex-direction:column;
-gap:6px;
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #f8fafc;
 }
 
-.stat span{
-color:#94a3b8;
-font-size:14px;
+.header p {
+  margin: 6px 0 0 0;
+  color: #94a3b8;
+  font-size: 14px;
 }
 
-.stat strong{
-font-size:22px;
-color:#f1f5f9;
+.badgeBox {
+  display: flex;
+  align-items: center;
 }
 
-.income{
-color:#22c55e;
+.badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
 }
 
-.expense{
-color:#ef4444;
+.riskLow {
+  background: #166534;
 }
 
-.accounts{
-display:flex;
-flex-direction:column;
-gap:12px;
-margin-top:12px;
+.riskMedium {
+  background: #a16207;
 }
 
-.account{
-display:flex;
-justify-content:space-between;
-padding:10px;
-background:#0f172a;
-border-radius:8px;
+.riskHigh {
+  background: #b91c1c;
 }
 
-@media(max-width:900px){
-
-.grid{
-grid-template-columns:1fr;
+.riskCritical {
+  background: #7f1d1d;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.twoCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat span {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.stat strong {
+  font-size: 28px;
+  color: #f8fafc;
+}
+
+.stat small {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.income {
+  color: #22c55e !important;
+}
+
+.expense {
+  color: #ef4444 !important;
+}
+
+.kpiList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.kpiRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  background: #0f172a;
+  border-radius: 10px;
+}
+
+.kpiRow span {
+  color: #cbd5e1;
+}
+
+.kpiRow strong {
+  color: #f8fafc;
+}
+
+.alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.alert {
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.alert strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #fecaca;
+}
+
+.alert p {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 14px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.listRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  background: #0f172a;
+  border-radius: 10px;
+}
+
+.listRow span {
+  color: #cbd5e1;
+}
+
+.listRow strong {
+  color: #f8fafc;
+}
+
+.accountTable {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.accountRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  background: #0f172a;
+  border-radius: 10px;
+}
+
+.accountName {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.accountType {
+  color: #94a3b8;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.accountTotals {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.trendTable {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.trendRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+  background: #0f172a;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.trendHead {
+  background: #172033;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.trendRow span {
+  color: #e2e8f0;
+  font-size: 14px;
+}
+
+.empty {
+  color: #94a3b8;
+  padding: 8px 0;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .twoCols {
+    grid-template-columns: 1fr;
+  }
+
+  .trendRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .accountRow {
+    flex-direction: column;
+  }
+
+  .accountTotals {
+    align-items: flex-start;
+  }
 }
