@@ -5,128 +5,328 @@ import { useAccounts } from "../../features/accounts/hooks/useAccounts"
 import Card from "../../components/ui/Card/Card"
 import Button from "../../components/ui/Button/Button"
 
-export default function CreditCardPurchases(){
+import toast from "react-hot-toast"
 
-const { data:purchases=[],createMut,deleteMut } = usePurchases()
+import styles from "./CreditCardPurchases.module.css"
 
-const { data:accounts=[] } = useAccounts()
+export default function CreditCardPurchases() {
 
-const creditCards = accounts.filter((a:any)=>a.type==="CREDIT_CARD")
+    const { data: purchases = [], createMut, deleteMut } = usePurchases()
 
-const [form,setForm] = useState({
+    const { data: accounts = [] } = useAccounts()
 
-card_account_id:"",
-total_amount:"",
-installments:"",
-first_installment_date:new Date().toISOString().slice(0,10)
+    const creditCards = accounts.filter((a: any) => a.type === "CREDIT_CARD")
 
-})
+    const [formOpen, setFormOpen] = useState(true)
 
-function onChange(key:string,value:any){
+    const [form, setForm] = useState({
 
-setForm(p=>({...p,[key]:value}))
+        card_account_id: "",
+        total_amount: "",
+        installments: "",
+        first_installment_date: new Date().toISOString().slice(0, 10),
+        description: ""
 
-}
+    })
 
-async function submit(e:any){
+    const [filters, setFilters] = useState({
 
-e.preventDefault()
+        card: "",
+        search: ""
 
-await createMut.mutateAsync({
+    })
 
-card_account_id:form.card_account_id,
-total_amount:Number(form.total_amount),
-installments:Number(form.installments),
-first_installment_date:form.first_installment_date
+    function onChange(key: string, value: any) {
 
-})
+        setForm(p => ({ ...p, [key]: value }))
 
-}
+    }
 
-async function remove(id:string){
+    function onFilterChange(key: string, value: string) {
 
-await deleteMut.mutateAsync(id)
+        setFilters(p => ({ ...p, [key]: value }))
 
-}
+    }
 
-return(
+    async function onSubmit(e: React.FormEvent) {
 
-<div>
+        e.preventDefault()
 
-<Card>
+        try {
 
-<form onSubmit={submit}>
+            await createMut.mutateAsync({
 
-<h2>Compra en cuotas</h2>
+                card_account_id: form.card_account_id,
+                total_amount: Number(form.total_amount),
+                installments: Number(form.installments),
+                first_installment_date: form.first_installment_date,
+                description: form.description || undefined
 
-<select
-value={form.card_account_id}
-onChange={e=>onChange("card_account_id",e.target.value)}
-required
->
+            })
 
-<option value="">Tarjeta</option>
+            toast.success("Compra creada")
 
-{creditCards.map((a:any)=>(
+            setForm({
 
-<option key={a.id} value={a.id}>
-{a.name}
-</option>
+                card_account_id: "",
+                total_amount: "",
+                installments: "",
+                first_installment_date: new Date().toISOString().slice(0, 10),
+                description: ""
 
-))}
+            })
 
-</select>
+            if (window.innerWidth < 900) {
 
-<input
-type="number"
-placeholder="Monto"
-value={form.total_amount}
-onChange={e=>onChange("total_amount",e.target.value)}
-required
-/>
+                setFormOpen(false)
 
-<input
-type="number"
-placeholder="Cuotas"
-value={form.installments}
-onChange={e=>onChange("installments",e.target.value)}
-required
-/>
+            }
 
-<Button type="submit">
+        } catch (err: any) {
 
-Crear
+            const message =
+                err?.response?.data?.error?.message ||
+                err?.message ||
+                "Error creando compra"
 
-</Button>
+            toast.error(message)
 
-</form>
+        }
 
-</Card>
+    }
 
-<div>
+    async function onDelete(id: string) {
 
-{purchases.map((p:any)=>(
+        try {
 
-<div key={p.id}>
+            await deleteMut.mutateAsync(id)
 
-{p.card_name} ••••{p.card_last4}
+            toast.success("Compra eliminada")
 
-${p.total_amount}
+        } catch (err: any) {
 
-{p.paid_installments}/{p.total_installments}
+            const message =
+                err?.response?.data?.error?.message ||
+                err?.message ||
+                "Error eliminando compra"
 
-<button onClick={()=>remove(p.id)}>
-Eliminar
-</button>
+            toast.error(message)
 
-</div>
+        }
 
-))}
+    }
 
-</div>
+    const filtered = purchases.filter((p: any) => {
 
-</div>
+        if (filters.card && p.card_account_id !== filters.card) return false
 
-)
+        if (filters.search) {
+
+            const text = `${p.description ?? ""} ${p.card_name ?? ""}`.toLowerCase()
+
+            if (!text.includes(filters.search.toLowerCase())) return false
+
+        }
+
+        return true
+
+    })
+
+    return (
+
+        <div className={styles.page}>
+
+            <button
+                type="button"
+                className={styles.mobileToggle}
+                onClick={() => setFormOpen(prev => !prev)}
+            >
+
+                {formOpen ? "Ocultar formulario" : "Nueva compra"}
+
+            </button>
+
+            <div className={styles.grid}>
+
+                <Card className={`${styles.formCard} ${!formOpen ? styles.closed : ""}`}>
+
+                    <form onSubmit={onSubmit} className={styles.form}>
+
+                        <h2>Nueva compra en cuotas</h2>
+
+                        <select
+                            value={form.card_account_id}
+                            onChange={(e) => onChange("card_account_id", e.target.value)}
+                            required
+                        >
+
+                            <option value="">Seleccionar tarjeta</option>
+
+                            {creditCards.map((a: any) => (
+
+                                <option key={a.id} value={a.id}>
+                                    {a.name}
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                        <input
+                            type="number"
+                            placeholder="Monto total"
+                            value={form.total_amount}
+                            onChange={(e) => onChange("total_amount", e.target.value)}
+                            required
+                        />
+
+                        <input
+                            type="number"
+                            placeholder="Número de cuotas"
+                            value={form.installments}
+                            onChange={(e) => onChange("installments", e.target.value)}
+                            required
+                        />
+
+                        <input
+                            type="date"
+                            value={form.first_installment_date}
+                            onChange={(e) => onChange("first_installment_date", e.target.value)}
+                        />
+
+                        <input
+                            placeholder="Descripción"
+                            value={form.description}
+                            onChange={(e) => onChange("description", e.target.value)}
+                        />
+
+                        <Button type="submit">
+
+                            Crear compra
+
+                        </Button>
+
+                    </form>
+
+                </Card>
+
+
+                <div>
+
+                    <div className={styles.filters}>
+
+                        <select
+                            value={filters.card}
+                            onChange={(e) => onFilterChange("card", e.target.value)}
+                        >
+
+                            <option value="">Todas las tarjetas</option>
+
+                            {creditCards.map((a: any) => (
+
+                                <option key={a.id} value={a.id}>
+                                    {a.name}
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                        <input
+                            placeholder="Buscar..."
+                            value={filters.search}
+                            onChange={(e) => onFilterChange("search", e.target.value)}
+                        />
+
+                    </div>
+
+                    <div className={styles.list}>
+
+                        <div className={styles.tableHeader}>
+
+                            <span>Tarjeta</span>
+                            <span>Descripción</span>
+                            <span>Total</span>
+                            <span>Cuotas</span>
+                            <span>Estado</span>
+                            <span></span>
+
+                        </div>
+
+                        {filtered.map((p: any) => (
+
+                            <div key={p.id} className={styles.row}>
+
+                                <span>
+
+                                    {p.card_name} ••••{p.card_last4}
+
+                                </span>
+
+                                <span>
+
+                                    {p.description || "Compra"}
+
+                                </span>
+
+                                <span>
+
+                                    ${p.total_amount}
+
+                                </span>
+
+                                <span>
+
+                                    <div className={styles.progressContainer}>
+
+                                        <div className={styles.progressBar}>
+
+                                            <div
+                                                className={styles.progressFill}
+                                                style={{
+                                                    width: `${(p.paid_installments / p.total_installments) * 100}%`
+                                                }}
+                                            />
+
+                                        </div>
+
+                                        <span className={styles.progressText}>
+
+                                            {p.paid_installments}/{p.total_installments}
+
+                                        </span>
+
+                                    </div>
+
+                                </span>
+
+                                <span>
+
+                                    {p.status}
+
+                                </span>
+
+                                <button
+                                    className={styles.delete}
+                                    onClick={() => onDelete(p.id)}
+                                >
+
+                                    Eliminar
+
+                                </button>
+
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    )
 
 }
