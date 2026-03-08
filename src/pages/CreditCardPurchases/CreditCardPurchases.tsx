@@ -296,7 +296,7 @@ export default function CreditCardPurchases() {
 
                                 <span>
 
-                                    {p.card_name} ••••{p.card_last4}
+                                    {p.card_name}
 
                                 </span>
 

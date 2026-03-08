@@ -146,7 +146,7 @@
 }
 
 .progressBar {
-    width: 100%;
+    width: 50%;
     height: 6px;
     background: #1e293b;
     border-radius: 4px;
