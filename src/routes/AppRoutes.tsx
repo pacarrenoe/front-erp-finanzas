@@ -29,11 +29,11 @@ export default function AppRoutes() {
         }
       >
 
-        <Route path="/" element={<Dashboard />}/>
-        <Route path="/accounts"  element={<Accounts />}/>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/accounts" element={<Accounts />} />
         <Route path="/transactions" element={<Transactions />} />
-        <Route path="/debts" element={<Debts />} />  
-        <Route path="/debts/:id" element={<DebtDetail/>}/> 
+        <Route path="/debts" element={<Debts />} />
+        <Route path="/debts/:id" element={<DebtDetail />} />
         <Route path="/recurring" element={<Recurring />} />
         <Route path="/credit-card-purchases" element={<CreditCardPurchases />} />
         {/* <Route path="/projection" element={<Projection />} /> */}
