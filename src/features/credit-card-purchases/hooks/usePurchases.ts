@@ -1,5 +1,11 @@
 import { useQuery,useMutation,useQueryClient } from "@tanstack/react-query"
-import { getPurchases,createPurchase,deletePurchase } from "../services/purchase.service"
+
+import {
+getPurchases,
+createPurchase,
+deletePurchase,
+getPurchaseSummary
+} from "../services/purchase.service"
 
 export function usePurchases(){
 
@@ -12,6 +18,13 @@ queryFn:getPurchases
 
 })
 
+const summary = useQuery({
+
+queryKey:["purchases-summary"],
+queryFn:getPurchaseSummary
+
+})
+
 const createMut = useMutation({
 
 mutationFn:createPurchase,
@@ -19,6 +32,7 @@ mutationFn:createPurchase,
 onSuccess:()=>{
 
 qc.invalidateQueries({queryKey:["purchases"]})
+qc.invalidateQueries({queryKey:["purchases-summary"]})
 
 }
 
@@ -31,6 +45,7 @@ mutationFn:deletePurchase,
 onSuccess:()=>{
 
 qc.invalidateQueries({queryKey:["purchases"]})
+qc.invalidateQueries({queryKey:["purchases-summary"]})
 
 }
 
@@ -39,6 +54,7 @@ qc.invalidateQueries({queryKey:["purchases"]})
 return{
 
 ...query,
+summary,
 createMut,
 deleteMut
 

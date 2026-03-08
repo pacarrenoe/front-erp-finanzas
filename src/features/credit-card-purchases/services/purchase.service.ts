@@ -21,3 +21,11 @@ export async function deletePurchase(id:string){
 await http.delete(`/credit-card-purchases/${id}`)
 
 }
+
+export async function getPurchaseSummary(){
+
+const { data } = await http.get("/credit-card-purchases/summary")
+
+return data.data
+
+}

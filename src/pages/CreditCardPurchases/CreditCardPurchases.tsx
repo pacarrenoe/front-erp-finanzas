@@ -11,7 +11,7 @@ import styles from "./CreditCardPurchases.module.css"
 
 export default function CreditCardPurchases() {
 
-    const { data: purchases = [], createMut, deleteMut } = usePurchases()
+    const { data: purchases = [], summary, createMut, deleteMut } = usePurchases()
 
     const { data: accounts = [] } = useAccounts()
 
@@ -146,6 +146,44 @@ export default function CreditCardPurchases() {
 
             </button>
 
+            {/* SUMMARY TARJETAS */}
+
+            {summary?.data && (
+
+                <Card>
+
+                    <div className={styles.summary}>
+
+                        <div>
+
+                            <span>Deuda pendiente</span>
+
+                            <strong>${summary.data.pending_amount ?? 0}</strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>Pagado</span>
+
+                            <strong>${summary.data.paid_amount ?? 0}</strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>Cuotas pendientes</span>
+
+                            <strong>{summary.data.pending_installments ?? 0}</strong>
+
+                        </div>
+
+                    </div>
+
+                </Card>
+
+            )}
+
             <div className={styles.grid}>
 
                 <Card className={`${styles.formCard} ${!formOpen ? styles.closed : ""}`}>
@@ -210,7 +248,6 @@ export default function CreditCardPurchases() {
 
                 </Card>
 
-
                 <div>
 
                     <div className={styles.filters}>
@@ -247,7 +284,7 @@ export default function CreditCardPurchases() {
                             <span>Tarjeta</span>
                             <span>Descripción</span>
                             <span>Total</span>
-                            <span>Cuotas</span>
+                            <span>Progreso</span>
                             <span>Estado</span>
                             <span></span>
 
@@ -275,30 +312,26 @@ export default function CreditCardPurchases() {
 
                                 </span>
 
-                                <span>
+                                <div className={styles.progressContainer}>
 
-                                    <div className={styles.progressContainer}>
+                                    <div className={styles.progressBar}>
 
-                                        <div className={styles.progressBar}>
-
-                                            <div
-                                                className={styles.progressFill}
-                                                style={{
-                                                    width: `${(p.paid_installments / p.total_installments) * 100}%`
-                                                }}
-                                            />
-
-                                        </div>
-
-                                        <span className={styles.progressText}>
-
-                                            {p.paid_installments}/{p.total_installments}
-
-                                        </span>
+                                        <div
+                                            className={styles.progressFill}
+                                            style={{
+                                                width: `${(p.paid_installments / p.total_installments) * 100}%`
+                                            }}
+                                        />
 
                                     </div>
 
-                                </span>
+                                    <span className={styles.progressText}>
+
+                                        {p.paid_installments}/{p.total_installments}
+
+                                    </span>
+
+                                </div>
 
                                 <span>
 
