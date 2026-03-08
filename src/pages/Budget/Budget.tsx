@@ -49,7 +49,7 @@ export default function Budget(){
     setForm({
       category_id:"",
       limit_amount:"",
-      alert_threshold_pct:"80"
+      alert_threshold_pct:"0"
     })
   }
 
