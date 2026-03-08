@@ -1,49 +1,79 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useQuery,useMutation,useQueryClient } from "@tanstack/react-query"
 
-import { getPeriods, createPeriod, getCurrentPeriod } from "../services/period.service"
+import {
+getPeriods,
+createPeriod,
+deletePeriod,
+updatePeriod,
+getCurrentPeriod
+} from "../services/period.service"
 
-export function usePeriods() {
+export function usePeriods(){
 
-  return useQuery({
+return useQuery({
 
-    queryKey: ["periods"],
+queryKey:["periods"],
 
-    queryFn: getPeriods
+queryFn:getPeriods
 
-  })
-
-}
-
-export function useCurrentPeriod() {
-
-  return useQuery({
-
-    queryKey: ["period-current"],
-
-    queryFn: getCurrentPeriod
-
-  })
+})
 
 }
 
-export function usePeriodMutations() {
+export function useCurrentPeriod(){
 
-  const qc = useQueryClient()
+return useQuery({
 
-  const createMut = useMutation({
+queryKey:["period-current"],
 
-    mutationFn: createPeriod,
+queryFn:getCurrentPeriod
 
-    onSuccess: () => {
+})
 
-      qc.invalidateQueries({ queryKey: ["periods"] })
+}
 
-      qc.invalidateQueries({ queryKey: ["period-current"] })
+export function usePeriodMutations(){
 
-    }
+const qc = useQueryClient()
 
-  })
+const createMut = useMutation({
 
-  return { createMut }
+mutationFn:createPeriod,
+
+onSuccess:()=>{
+
+qc.invalidateQueries({queryKey:["periods"]})
+
+qc.invalidateQueries({queryKey:["period-current"]})
+
+}
+
+})
+
+const updateMut = useMutation({
+
+mutationFn:({id,data}:any)=>updatePeriod(id,data),
+
+onSuccess:()=>{
+
+qc.invalidateQueries({queryKey:["periods"]})
+
+}
+
+})
+
+const deleteMut = useMutation({
+
+mutationFn:deletePeriod,
+
+onSuccess:()=>{
+
+qc.invalidateQueries({queryKey:["periods"]})
+
+}
+
+})
+
+return { createMut,updateMut,deleteMut }
 
 }

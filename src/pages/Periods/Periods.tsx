@@ -1,10 +1,15 @@
-import { usePeriods, usePeriodMutations } from "../../features/periods/hooks/usePeriods"
+import { useState } from "react"
+
+import toast from "react-hot-toast"
+
+import {
+  usePeriods,
+  usePeriodMutations
+} from "../../features/periods/hooks/usePeriods"
 
 import Card from "../../components/ui/Card/Card"
 
 import Button from "../../components/ui/Button/Button"
-
-import { useState } from "react"
 
 import styles from "./Periods.module.css"
 
@@ -12,12 +17,15 @@ export default function Periods() {
 
   const { data: periods = [] } = usePeriods()
 
-  const { createMut } = usePeriodMutations()
+  const { createMut, deleteMut } = usePeriodMutations()
 
   const [form, setForm] = useState({
 
     salary_pay_date: "",
-    base_salary_amount: ""
+    base_salary_amount: "",
+    days_worked: "",
+    pluxee_per_day: "",
+    notes: ""
 
   })
 
@@ -35,16 +43,33 @@ export default function Periods() {
 
       salary_pay_date: form.salary_pay_date,
 
-      base_salary_amount: Number(form.base_salary_amount)
+      base_salary_amount: Number(form.base_salary_amount),
+
+      days_worked: form.days_worked ? Number(form.days_worked) : undefined,
+
+      pluxee_per_day: form.pluxee_per_day ? Number(form.pluxee_per_day) : undefined,
+
+      notes: form.notes || undefined
 
     })
 
     setForm({
 
       salary_pay_date: "",
-      base_salary_amount: ""
+      base_salary_amount: "",
+      days_worked: "",
+      pluxee_per_day: "",
+      notes: ""
 
     })
+
+  }
+
+  async function remove(id: string) {
+
+    await deleteMut.mutateAsync(id)
+
+    toast.success("Periodo eliminado")
 
   }
 
@@ -52,48 +77,94 @@ export default function Periods() {
 
     <div className={styles.page}>
 
-      <Card>
+      <div className={styles.grid}>
 
-        <form onSubmit={submit} className={styles.form}>
+        <Card>
 
-          <h2>Nuevo período financiero</h2>
+          <form onSubmit={submit} className={styles.form}>
 
-          <input
-            type="date"
-            value={form.salary_pay_date}
-            onChange={e => change("salary_pay_date", e.target.value)}
-            required
-          />
+            <h2>Nuevo periodo</h2>
 
-          <input
-            type="number"
-            placeholder="Sueldo base"
-            value={form.base_salary_amount}
-            onChange={e => change("base_salary_amount", e.target.value)}
-            required
-          />
+            <input
+              type="date"
+              value={form.salary_pay_date}
+              onChange={e => change("salary_pay_date", e.target.value)}
+              required
+            />
 
-          <Button type="submit">
+            <input
+              type="number"
+              placeholder="Sueldo base"
+              value={form.base_salary_amount}
+              onChange={e => change("base_salary_amount", e.target.value)}
+              required
+            />
 
-            Crear período
+            <input
+              type="number"
+              placeholder="Dias trabajados"
+              value={form.days_worked}
+              onChange={e => change("days_worked", e.target.value)}
+            />
 
-          </Button>
+            <input
+              type="number"
+              placeholder="Pluxee por dia"
+              value={form.pluxee_per_day}
+              onChange={e => change("pluxee_per_day", e.target.value)}
+            />
 
-        </form>
+            <input
+              placeholder="Notas"
+              value={form.notes}
+              onChange={e => change("notes", e.target.value)}
+            />
 
-      </Card>
+            <Button type="submit">
+              Crear
+            </Button>
 
-      <div className={styles.list}>
+          </form>
 
-        {periods.map((p: any) => (
+        </Card>
 
-          <Card key={p.id}>
+        <div>
 
-            {new Date(p.start_date).toLocaleDateString()} - {new Date(p.end_date).toLocaleDateString()}
+          <div className={styles.tableHeader}>
+            <span>Inicio</span>
+            <span>Fin</span>
+            <span>Sueldo</span>
+            <span>Pluxee</span>
+            <span>Notas</span>
+            <span></span>
+          </div>
 
-          </Card>
+          {periods.map((p: any) => (
 
-        ))}
+            <div key={p.id} className={styles.row}>
+
+              <span>{new Date(p.start_date).toLocaleDateString()}</span>
+
+              <span>{new Date(p.end_date).toLocaleDateString()}</span>
+
+              <span>${p.base_salary_amount}</span>
+
+              <span>${p.pluxee_amount ?? 0}</span>
+
+              <span>{p.notes ?? "-"}</span>
+
+              <button
+                className={styles.delete}
+                onClick={() => remove(p.id)}
+              >
+                Eliminar
+              </button>
+
+            </div>
+
+          ))}
+
+        </div>
 
       </div>
 
