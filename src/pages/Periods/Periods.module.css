@@ -1,105 +1,105 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.page{
+display:flex;
+flex-direction:column;
+gap:20px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 24px;
+.grid{
+display:grid;
+grid-template-columns:360px 1fr;
+gap:24px;
 }
 
 /* FORM */
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.form{
+display:flex;
+flex-direction:column;
+gap:14px;
 }
 
-.form h2 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #e2e8f0;
+.form h2{
+font-size:18px;
+font-weight:600;
+color:#e2e8f0;
 }
 
-.form input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #1e293b;
-  background: #0f172a;
-  color: #e2e8f0;
-  font-size: 14px;
+.form input{
+width:100%;
+padding:10px 12px;
+border-radius:8px;
+border:1px solid #1e293b;
+background:#0f172a;
+color:#e2e8f0;
+font-size:14px;
 }
 
-.form input:focus {
-  outline: none;
-  border-color: #3b82f6;
+.form input:focus{
+outline:none;
+border-color:#3b82f6;
 }
 
 /* TABLE HEADER */
 
-.tableHeader {
-  display: grid;
-  grid-template-columns: 140px 140px 160px 120px 1fr 100px;
-  font-size: 12px;
-  color: #64748b;
-  padding: 10px 14px;
-  border-bottom: 1px solid #1e293b;
+.tableHeader{
+display:grid;
+grid-template-columns:140px 140px 160px 120px 1fr 100px;
+font-size:12px;
+color:#64748b;
+padding:10px 14px;
+border-bottom:1px solid #1e293b;
 }
 
 /* ROW */
 
-.row {
-  display: grid;
-  grid-template-columns: 140px 140px 160px 120px 1fr 100px;
-  align-items: center;
-  padding: 12px 14px;
-  background: #0f172a;
-  border-radius: 8px;
-  font-size: 12px;
+.row{
+display:grid;
+grid-template-columns:140px 140px 160px 120px 1fr 100px;
+align-items:center;
+padding:12px 14px;
+background:#0f172a;
+border-radius:8px;
+font-size:12px;
 }
 
-.row:hover {
-  background: #111827;
+.row:hover{
+background:#111827;
 }
 
 /* DELETE */
 
-.delete {
-  background: #1e293b;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  color: #cbd5f5;
-  cursor: pointer;
+.delete{
+background:#1e293b;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+color:#cbd5f5;
+cursor:pointer;
 }
 
-.delete:hover {
-  background: #334155;
+.delete:hover{
+background:#334155;
 }
 
 /* MOBILE */
 
-@media (max-width:900px) {
+@media (max-width:900px){
 
-  .grid {
-    grid-template-columns: 1fr;
-  }
+.grid{
+grid-template-columns:1fr;
+}
 
 }
 
-@media (max-width:768px) {
+@media (max-width:768px){
 
-  .tableHeader {
-    display: none;
-  }
+.tableHeader{
+display:none;
+}
 
-  .row {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
+.row{
+grid-template-columns:1fr;
+gap:6px;
+}
 
 }
