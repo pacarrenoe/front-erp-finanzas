@@ -2,12 +2,17 @@ import StatCard from "../../components/ui/StatCard/StatCard"
 import Loader from "../../components/ui/Loader/Loader"
 import Card from "../../components/ui/Card/Card"
 
+import FinanceBarChart from "../../components/charts/FinanceBarChart"
+import CategoryPieChart from "../../components/charts/CategoryPieChart"
+
 import styles from "./Dashboard.module.css"
 
 import {
   useDashboard,
   useDashboardTrend
 } from "../../features/dashboard/hooks/useDashboard"
+
+
 
 function formatMoney(value: number) {
 
@@ -18,6 +23,7 @@ function formatMoney(value: number) {
   }).format(value || 0)
 
 }
+
 
 function formatDate(value: string) {
 
@@ -30,6 +36,7 @@ function formatDate(value: string) {
   }).format(date)
 
 }
+
 
 function riskClass(level: string) {
 
@@ -54,10 +61,14 @@ function riskClass(level: string) {
 
 }
 
+
+
 export default function Dashboard() {
 
   const { data: dashboard, isLoading, error } = useDashboard()
   const { data: trend = [] } = useDashboardTrend(6)
+
+
 
   if (isLoading) {
 
@@ -69,6 +80,8 @@ export default function Dashboard() {
 
   }
 
+
+
   if (error || !dashboard) {
 
     return (
@@ -79,32 +92,50 @@ export default function Dashboard() {
 
   }
 
+
+
+  const commitmentRatio =
+    dashboard.commitments_total / dashboard.income_total || 0
+
+  const expenseRatio =
+    dashboard.expense_total / dashboard.income_total || 0
+
+  const runwayDays =
+    Math.floor(
+      dashboard.financial_health.cash_available /
+      (dashboard.expense_total || 1)
+    )
+
+
+
   return (
 
     <div className={styles.page}>
 
+
       {/* HEADER */}
 
       <div className={styles.header}>
+
         <div>
+
+          <h1>Dashboard</h1>
+
           <p>
-            <p>
-              Periodo {formatDate(dashboard.period.start_date)} al {formatDate(dashboard.period.end_date)}
-            </p>
+            Periodo {formatDate(dashboard.period.start_date)} → {formatDate(dashboard.period.end_date)}
           </p>
+
         </div>
 
-        <div className={styles.badgeBox}>
-          <span className={`${styles.badge} ${riskClass(dashboard.risk_level)}`}>
-            Riesgo {dashboard.risk_level}
-          </span>
-        </div>
+        <span className={`${styles.badge} ${riskClass(dashboard.risk_level)}`}>
+          Riesgo {dashboard.risk_level}
+        </span>
 
       </div>
 
 
 
-      {/* KPI PRINCIPALES */}
+      {/* KPIs */}
 
       <div className={styles.grid}>
 
@@ -131,7 +162,7 @@ export default function Dashboard() {
         />
 
         <StatCard
-          title="Cash disponible"
+          title="Dinero disponible"
           value={formatMoney(dashboard.financial_health.cash_available)}
           color="green"
         />
@@ -156,7 +187,119 @@ export default function Dashboard() {
 
 
 
-      {/* DESGLOSES */}
+      {/* SALUD FINANCIERA */}
+
+      <div className={styles.healthGrid}>
+
+        <Card>
+
+          <div className={styles.progressCard}>
+
+            <strong>Ratio compromisos</strong>
+
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${commitmentRatio * 100}%` }}
+              />
+            </div>
+
+            <span>
+              {Math.round(commitmentRatio * 100)}%
+            </span>
+
+          </div>
+
+        </Card>
+
+
+
+        <Card>
+
+          <div className={styles.progressCard}>
+
+            <strong>Ratio gasto</strong>
+
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${expenseRatio * 100}%` }}
+              />
+            </div>
+
+            <span>
+              {Math.round(expenseRatio * 100)}%
+            </span>
+
+          </div>
+
+        </Card>
+
+
+
+        <Card>
+
+          <div className={styles.progressCard}>
+
+            <strong>Dinero disponible</strong>
+
+            <strong>{runwayDays} días</strong>
+
+            <span>
+              Dinero disponible si no ingresara nada más
+            </span>
+
+          </div>
+
+        </Card>
+
+      </div>
+
+
+
+      {/* GRAFICOS */}
+
+      <div className={styles.twoCols}>
+
+        <Card>
+
+          <h3>Ingresos vs gastos</h3>
+
+          <FinanceBarChart
+            income={dashboard.income_total}
+            expense={dashboard.expense_total}
+            commitments={dashboard.commitments_total}
+          />
+
+        </Card>
+
+
+
+        <Card>
+
+          <h3>Distribución de gastos</h3>
+
+          {dashboard.breakdown_category.length === 0 ? (
+
+            <p className={styles.empty}>
+              No hay gastos registrados
+            </p>
+
+          ) : (
+
+            <CategoryPieChart
+              data={dashboard.breakdown_category}
+            />
+
+          )}
+
+        </Card>
+
+      </div>
+
+
+
+      {/* DESGLOSE */}
 
       <div className={styles.twoCols}>
 
@@ -219,58 +362,29 @@ export default function Dashboard() {
 
       </div>
 
-      {/* CATEGORIAS + CUENTAS + ALERTAS*/}
 
-      <div className={styles.twoCols}>
+
+      {/* ACTIVIDAD */}
+
+      <div className={styles.tripleCols}>
+
         <Card>
 
-        <h3>Alertas</h3>
-
-        <div className={styles.alerts}>
+          <h3>Alertas</h3>
 
           {dashboard.alerts.length === 0 && (
-            <span className={styles.empty}>Sin alertas en este período</span>
+            <p className={styles.empty}>
+              Sin alertas
+            </p>
           )}
 
           {dashboard.alerts.map((a: any) => (
 
             <div key={a.type} className={styles.alert}>
-
-              <strong>{a.type}</strong>
-
-              <p>{a.message}</p>
-
+              {a.message}
             </div>
 
           ))}
-
-        </div>
-
-      </Card>
-
-        <Card>
-
-          <h3>Top categorías de gasto</h3>
-
-          <div className={styles.list}>
-
-            {dashboard.breakdown_category.length === 0 && (
-              <span className={styles.empty}>No hay gastos registrados</span>
-            )}
-
-            {dashboard.breakdown_category.map((c: any) => (
-
-              <div key={c.category_id} className={styles.listRow}>
-
-                <span>{c.category_name}</span>
-
-                <strong>{formatMoney(c.total)}</strong>
-
-              </div>
-
-            ))}
-
-          </div>
 
         </Card>
 
@@ -278,37 +392,51 @@ export default function Dashboard() {
 
         <Card>
 
-          <h3>Movimiento por cuenta</h3>
+          <h3>Top categorías</h3>
 
-          <div className={styles.accountTable}>
+          {dashboard.breakdown_category.length === 0 && (
+            <p className={styles.empty}>
+              Sin gastos
+            </p>
+          )}
 
-            {dashboard.breakdown_account.length === 0 && (
-              <span className={styles.empty}>No hay movimiento por cuenta</span>
-            )}
+          {dashboard.breakdown_category.slice(0, 5).map((c: any) => (
 
-            {dashboard.breakdown_account.map((a: any) => (
+            <div key={c.category_id} className={styles.listRow}>
 
-              <div key={a.account_id} className={styles.accountRow}>
+              <span>{c.category_name}</span>
 
-                <div>
+              <strong>{formatMoney(c.total)}</strong>
 
-                  <div className={styles.accountName}>{a.account_name}</div>
+            </div>
 
-                  <div className={styles.accountType}>{a.account_type}</div>
+          ))}
 
-                </div>
+        </Card>
 
-                <div className={styles.accountTotals}>
 
-                  <span>{formatMoney(a.total)}</span>
 
-                </div>
+        <Card>
 
-              </div>
+          <h3>Movimiento cuentas</h3>
 
-            ))}
+          {dashboard.breakdown_account.length === 0 && (
+            <p className={styles.empty}>
+              Sin movimientos
+            </p>
+          )}
 
-          </div>
+          {dashboard.breakdown_account.slice(0, 5).map((a: any) => (
+
+            <div key={a.account_id} className={styles.listRow}>
+
+              <span>{a.account_name}</span>
+
+              <strong>{formatMoney(a.total)}</strong>
+
+            </div>
+
+          ))}
 
         </Card>
 
@@ -339,9 +467,13 @@ export default function Dashboard() {
             <div key={p.period_id} className={styles.trendRow}>
 
               <span>{p.period}</span>
+
               <span>{formatMoney(p.income_total)}</span>
+
               <span>{formatMoney(p.expense_total)}</span>
+
               <span>{formatMoney(p.base_salary)}</span>
+
               <span>{formatMoney(p.pluxee)}</span>
 
             </div>
