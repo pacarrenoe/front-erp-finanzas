@@ -269,8 +269,17 @@
 }
 
 
-.chartCard{
-height:320px;
+.chartCard {
+  height: 320px;
+  overflow-x:auto;
+}
+
+@media (max-width: 600px) {
+
+  .chartCard {
+    height: 220px;
+  }
+
 }
 
 .tripleCols {
@@ -301,4 +310,35 @@ height:320px;
 .progressFill {
   height: 100%;
   background: #22c55e;
+}
+
+@media (max-width:600px){
+
+  .header h1{
+    font-size:22px;
+  }
+
+  .header p{
+    font-size:13px;
+  }
+
+  .badge{
+    font-size:12px;
+    padding:6px 10px;
+  }
+
+}
+
+
+@media (max-width:900px){
+
+  .twoCols{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+.grid{
+  grid-template-columns:repeat(2,1fr);
 }

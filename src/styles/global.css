@@ -1,31 +1,29 @@
+* {
+  box-sizing: border-box;
+}
 
-
-* { box-sizing: border-box; }
-
-html, body {
+html,
+body {
   height: 100%;
 }
 
 body {
 
-   margin: 0;
-
+  margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
-
-  background:
-    radial-gradient(
-      circle at top,
-      #0f172a,
-      #020617
-    );
-
+  background: #020617;
   color: var(--text-primary);
 
 }
 
-a { color: inherit; }
+a {
+  color: inherit;
+}
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font: inherit;
 }
 
