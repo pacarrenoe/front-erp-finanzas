@@ -8,6 +8,8 @@ import Debts from "../pages/Debts/Debts"
 import DebtDetail from "../pages/DebtDetail/DebtDetail";
 import Recurring from "../pages/Recurring/Recurring";
 import CreditCardPurchases from "../pages/CreditCardPurchases/CreditCardPurchases"
+import Installments from "../pages/Installments/Installments"
+import Periods from "../pages/Periods/Periods"
 
 
 import AppLayout from "../layouts/AppLayout/AppLayout"
@@ -36,6 +38,8 @@ export default function AppRoutes() {
         <Route path="/debts/:id" element={<DebtDetail />} />
         <Route path="/recurring" element={<Recurring />} />
         <Route path="/credit-card-purchases" element={<CreditCardPurchases />} />
+        <Route path="/installments" element={<Installments />} />
+        <Route path="/periods" element={<Periods />} />
         {/* <Route path="/projection" element={<Projection />} /> */}
 
       </Route>

@@ -108,6 +108,18 @@ export default function Sidebar({ open, onClose }: Props) {
           Cuotas
         </NavLink>
 
+        <NavLink
+          to="/periods"
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.link} ${styles.active}`
+              : styles.link
+          }
+          onClick={onClose}
+        >
+          Períodos
+        </NavLink>
+
 
         <NavLink
           to="/debts"
