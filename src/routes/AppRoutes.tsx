@@ -11,6 +11,8 @@ import CreditCardPurchases from "../pages/CreditCardPurchases/CreditCardPurchase
 import Installments from "../pages/Installments/Installments"
 import Periods from "../pages/Periods/Periods"
 import Categories from "../pages/Categories/Categories"
+import Budget from "../pages/Budget/Budget"
+import Projection from "../pages/Projection/Projection"
 
 
 import AppLayout from "../layouts/AppLayout/AppLayout"
@@ -44,8 +46,8 @@ export default function AppRoutes() {
         <Route path="/debts/:id" element={<DebtDetail />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/categories" element={<Categories />} />
-        {/* <Route path="/budget" element={<Budget />} /> */}
-        {/* <Route path="/projection" element={<Projection />} /> */}
+        <Route path="/budget" element={<Budget />} />
+        <Route path="/projection" element={<Projection />} />
 
       </Route>
 
