@@ -5,9 +5,14 @@ export type LoginDTO = {
   password: string
 }
 
-export async function loginRequest(data: LoginDTO) {
+export function registerRequest(data:any){
 
-  const response = await http.post("/auth/login", data)
+return http.post("/auth/register",data)
 
-  return response.data
+}
+
+export function loginRequest(data:any){
+
+return http.post("/auth/login",data)
+
 }

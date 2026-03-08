@@ -85,6 +85,10 @@ export default function Login() {
           Entrar
         </button>
 
+        <p className={styles.loginLink}>
+          ¿No tienes cuenta? <a href="/register">Regístrate</a>
+        </p>
+
       </form>
 
     </div>
