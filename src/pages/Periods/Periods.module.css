@@ -72,12 +72,6 @@
   color:#e2e8f0;
 }
 
-.actions{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
 .cancel{
   background:#1e293b;
   border:none;
@@ -182,4 +176,16 @@
   .preview{
     grid-template-columns:1fr;
   }
+}
+
+
+.helper{
+font-size:11px;
+color:#94a3b8;
+}
+
+.actions{
+display:flex;
+gap:10px;
+align-items:center;
 }
